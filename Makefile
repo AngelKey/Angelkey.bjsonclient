@@ -10,7 +10,8 @@ lib/%.js: src/%.iced
 	$(ICED) -I node -c -o `dirname $@` $<
 
 $(BUILD_STAMP): \
-	lib/main.js
+	lib/main.js \
+        lib/request.js
 	date > $@
 
 clean:

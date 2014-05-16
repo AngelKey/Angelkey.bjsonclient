@@ -23,6 +23,12 @@
   "dependencies": {
     "request": "^2.34.0",
     "keybase-bjson-core": "*",
-    "iced-coffee-script": "^1.7.1-b"
+    "iced-coffee-script": "^1.7.1-b",
+    "iced-error": "0.0.8",
+    "iced-utils": "^0.1.13"
+  },
+  "devDependencies": {
+    "iced-test": "0.0.15",
+    "minimist": "^0.1.0"
   }
 }

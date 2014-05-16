@@ -1,2 +1,2 @@
 
-exports.dummy = {}
+exports.request = require('./request').request
