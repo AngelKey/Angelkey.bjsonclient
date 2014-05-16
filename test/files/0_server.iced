@@ -82,7 +82,7 @@ send_with_encoding = (T, enc, cb) ->
 
 exports.send_json = (T,cb) -> send_with_encoding T, 'json', cb
 exports.send_msgpack = (T,cb) -> send_with_encoding T, 'msgpack', cb
-exports.send_msgpack_64 = (T,cb) -> send_with_encoding T, 'msgpack-64', cb
+exports.send_msgpack_64 = (T,cb) -> send_with_encoding T, 'msgpack64', cb
 
 #=======================================================================
 
