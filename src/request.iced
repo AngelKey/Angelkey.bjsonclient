@@ -2,7 +2,8 @@
 base = require 'request'
 {make_esc} = require 'iced-error'
 {athrow} = require('iced-utils').util
-{encode,decode_json_obj,decode} = require 'keybase-bjson-core'
+core = require 'keybase-bjson-core'
+{mime_types} = core
 
 #===================================================================================================
 
@@ -18,37 +19,19 @@ exports.request = request = (opts, cb) ->
 
   if (obj = opts.arg?.data)?
     decode = true
-    enc = opts?.arg.encoding or 'json'
-
-    [ct, inbody] = switch enc
-      when 'json'       then [ 'application/json',         encode({obj, json : true }) ]
-      when 'msgpack'    then [ 'application/x-msgpack',    encode({obj, msgpack : true, encoding : 'binary' })]
-      when 'msgpack-64' then [ 'application/x-msgpack-64', encode({obj, msgpack : true, encoding : 'base64' })]
-      else                   [ null, null ]
-
-    if not inbody?
-      err = new Error("Invalid encoding type: #{enc}")
-      await athrow err, esc defer()
-    else
-      opts.encoding = null
-      opts.headers or= {}
-      opts.headers['content-type'] = ct
-      opts.headers['accept'] = "application/json; application/x-msgpack; application/x-msgpack-64"
+    [err, ct, inbody] = core.to_content_type_and_body { encoding: opts?.arg.encoding, obj }
+    await athrow err, esc defer() if err?
+    opts.encoding = null
+    opts.headers or= {}
+    opts.headers['content-type'] = ct
+    opts.headers['accept'] = core.accept.join(', ')
     opts.body = inbody
 
   await base opts, esc defer resp, body
 
   if not decode then # noop
   else if not (ct = resp.headers['content-type']?.split("; "))? then # noop
-  else
-    try
-      body = switch ct[0]
-        when "application/json"         then decode_json_obj body
-        when "application/x-msgpack"    then decode { buf : body, msgpack : true }
-        when "application/x-msgpack-64" then decode { buf : body, msgpack : true, encoding : 'base64' }
-        else null
-    catch e
-      err = new Error "Error decoding output: #{e.message}"
+  else [err,body] = core.from_content_type_and_body { content_type : ct[0], body }
 
   cb err, resp, body
 

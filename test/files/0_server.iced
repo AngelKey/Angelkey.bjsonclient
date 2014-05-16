@@ -86,6 +86,19 @@ exports.send_msgpack_64 = (T,cb) -> send_with_encoding T, 'msgpack-64', cb
 
 #=======================================================================
 
+exports.send_error = (T,cb) ->
+  opts =
+    url : make_url "/whoops.json"
+    arg :
+      encoding : "bah"
+      data : make_obj()
+    method : "POST"
+  await request opts, defer err, res, body
+  T.assert err?, "error happened"
+  cb()
+
+#=======================================================================
+
 exports.destroy = (T,cb) ->
   await server.close defer()
   cb null
