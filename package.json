@@ -29,6 +29,8 @@
   },
   "devDependencies": {
     "iced-test": "0.0.15",
-    "minimist": "^0.1.0"
+    "minimist": "^0.1.0",
+    "keybase-bjson-express": "0.0.1",
+    "express": "^4.2.0"
   }
 }
