@@ -1,6 +1,6 @@
 {
   "name": "keybase-bjson-client",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A wrapper around request that uses BJSON encoding",
   "main": "lib/main.js",
   "scripts": {
