@@ -18,7 +18,6 @@ exports.request = request = (opts, cb) ->
   esc = make_esc cb, "request"
 
   if (obj = opts.arg?.data)?
-    decode = true
     [err, ct, inbody] = core.to_content_type_and_body { encoding: opts?.arg.encoding, obj }
     await athrow err, esc defer() if err?
     opts.encoding = null
@@ -29,8 +28,7 @@ exports.request = request = (opts, cb) ->
 
   await base opts, esc defer resp, body
 
-  if not decode then # noop
-  else if not (ct = resp.headers['content-type']?.split("; "))? then # noop
+  if not (ct = resp.headers['content-type']?.split("; "))? then # noop
   else [err,body] = core.from_content_type_and_body { content_type : ct[0], body }
 
   cb err, resp, body
