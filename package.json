@@ -22,7 +22,7 @@
   "homepage": "https://github.com/keybase/node-bjson-client",
   "dependencies": {
     "request": "^2.34.0",
-    "keybase-bjson-core": "*",
+    "keybase-bjson-core": ">=0.0.4",
     "iced-coffee-script": "^1.7.1-b",
     "iced-error": "0.0.8",
     "iced-utils": "^0.1.13"
